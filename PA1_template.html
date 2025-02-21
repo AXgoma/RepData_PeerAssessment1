@@ -439,13 +439,8 @@ the mean).</p>
 weekends?</h2>
 <p>The assignment of type of days can be easily achieved using the
 lubridate package.</p>
-<pre class="r"><code>library(lubridate)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;lubridate&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     date, intersect, setdiff, union</code></pre>
-<pre class="r"><code>replaced_data_days &lt;- replaced_data %&gt;% 
+<pre class="r"><code>library(lubridate)
+replaced_data_days &lt;- replaced_data %&gt;% 
       mutate(day = ifelse(wday(date) %in% c(1,7), &quot;weekend&quot;, &quot;weekday&quot;))
 replaced_data_days$day &lt;- as.factor(replaced_data_days$day)</code></pre>
 <p>Next, the data is grouped by interval and type of days. Using the

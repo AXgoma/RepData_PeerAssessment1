@@ -89,7 +89,7 @@ It is shown that the histogram is different to the previous one, as it pushes th
 
 ## Are there differences in activity patterns between weekdays and weekends?
 The assignment of type of days can be easily achieved using the lubridate package.
-```{r add days column, echo=TRUE}
+```{r add days column, echo=TRUE, message=FALSE, warning=FALSE}
 library(lubridate)
 replaced_data_days <- replaced_data %>% 
       mutate(day = ifelse(wday(date) %in% c(1,7), "weekend", "weekday"))
