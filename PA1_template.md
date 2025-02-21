@@ -39,7 +39,7 @@ hist(total_steps$total,
      xlab = "Total range of steps taken per day")
 ```
 
-![plot of chunk histogram without NA values](figure/histogram without NA values-1.png)
+![](figure/histogram_without_NA_values-1.png)<!-- -->
 
 Meanwhile, the mean and median of the total number of steps taken per day can both be found with summary().
 
@@ -67,7 +67,7 @@ with(activity_pattern, plot(interval, pattern,
                             ylab = "average steps"))
 ```
 
-![plot of chunk daily activity pattern](figure/daily activity pattern-1.png)
+![](figure/daily_activity_pattern-1.png)<!-- -->
 
 The interval containing the maximum value can be easily found with the which() command, which is interval 835 with the average steps of 206.
 
@@ -115,7 +115,7 @@ hist(total_steps_replaced$total,
      xlab = "Total range of steps taken per day")
 ```
 
-![plot of chunk histogram with replaced NA values](figure/histogram with replaced NA values-1.png)
+![](figure/histogram_with_replaced_NA_values-1.png)<!-- -->
 
 It is shown that the histogram is different to the previous one, as it pushes the distribution to become more "normal" (populated closer to the mean).
 
@@ -144,4 +144,4 @@ xyplot(pattern ~ interval | day,
        ylab = "average steps")
 ```
 
-![plot of chunk activity pattern in weekday and weekend](figure/activity pattern in weekday and weekend-1.png)
+![](figure/activity_pattern_in_weekday_and_weekend-1.png)<!-- -->

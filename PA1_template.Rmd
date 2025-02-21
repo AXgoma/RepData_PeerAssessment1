@@ -8,7 +8,7 @@ output:
 
 ## Loading and preprocessing the data
 Load the data using read.csv().
-```{r load data, echo=TRUE}
+```{r load_data, echo=TRUE}
 data <- read.csv("activity.csv")
 data$date <- as.Date(data$date, "%Y-%m-%d")
 ```
@@ -16,12 +16,12 @@ data$date <- as.Date(data$date, "%Y-%m-%d")
 
 ## What is mean total number of steps taken per day?
 First, remove NA values from the steps column.
-```{r remove NA values, echo=TRUE}
+```{r remove_NA_values, echo=TRUE}
 without_na <- na.omit(data)
 ```
 
 Then, use dplyr package to summarise the total number of steps each day.
-```{r summarise total steps, message=FALSE, warning=FALSE, echo=TRUE}
+```{r summarise_total_steps, message=FALSE, warning=FALSE, echo=TRUE}
 library(dplyr)
 total_steps <- without_na %>%
       group_by(date) %>% 
@@ -29,21 +29,21 @@ total_steps <- without_na %>%
 ```
 
 Lastly, use the summarised data to make a histogram.
-```{r histogram without NA values, echo=TRUE, fig.path='figure/'}
+```{r histogram_without_NA_values, echo=TRUE, fig.path='figure/'}
 hist(total_steps$total, 
      main = "Histogram of steps frequency",
      xlab = "Total range of steps taken per day")
 ```
 
 Meanwhile, the mean and median of the total number of steps taken per day can both be found with summary().
-```{r mean and median of total steps, echo=TRUE}
+```{r mean_and_median_of_total_steps, echo=TRUE}
 summary(total_steps$total)
 ```
 The mean is 10,766 steps per day and the median is 10,765 steps per day.
 
 ## What is the average daily activity pattern?
 The data without missing values is grouped by interval while the average steps are calculated within those intervals. Then, a time series plot is created to see the daily activity pattern.
-```{r daily activity pattern, echo=TRUE, fig.path='figure/'}
+```{r daily_activity_pattern, echo=TRUE, fig.path='figure/'}
 activity_pattern <- without_na %>% 
       group_by(interval) %>% 
       summarise(pattern = mean(steps))
@@ -55,19 +55,19 @@ with(activity_pattern, plot(interval, pattern,
 ```
 
 The interval containing the maximum value can be easily found with the which() command, which is interval 835 with the average steps of 206.
-```{r maximum average step, echo=TRUE}
+```{r maximum_average_step, echo=TRUE}
 activity_pattern[which.max(activity_pattern$pattern),]
 ```
 
 
 ## Imputing missing values
 The total number of rows with missing values can be calculated with sum() of is.na() in the original dataset that was loaded.
-```{r count NA values, echo=TRUE}
+```{r count_NA_values, echo=TRUE}
 sum(is.na(data))
 ```
 
 To replace the missing values, the mean for the 5-minute interval will be used. Using the previously created object to find the daily activity pattern, this object can be merged to the original dataset to replace the NA values according to the intervals.
-```{r replace NA values, echo=TRUE}
+```{r replace_NA_values, echo=TRUE}
 replaced_data <- merge(data, activity_pattern, by = "interval")
 replaced_data$steps <- ifelse(is.na(replaced_data$steps), 
                               replaced_data$pattern, replaced_data$steps)
@@ -75,7 +75,7 @@ replaced_data <- replaced_data[,1:3]
 ```
 
 Then, the histogram is created with similar steps previously done.
-```{r histogram with replaced NA values, echo=TRUE, fig.path='figure/'}
+```{r histogram_with_replaced_NA_values, echo=TRUE, fig.path='figure/'}
 total_steps_replaced <- replaced_data %>%
       group_by(date) %>% 
       summarise(total = sum(steps))
@@ -89,7 +89,7 @@ It is shown that the histogram is different to the previous one, as it pushes th
 
 ## Are there differences in activity patterns between weekdays and weekends?
 The assignment of type of days can be easily achieved using the lubridate package.
-```{r add days column, echo=TRUE, message=FALSE, warning=FALSE}
+```{r add_days_column, echo=TRUE, message=FALSE, warning=FALSE}
 library(lubridate)
 replaced_data_days <- replaced_data %>% 
       mutate(day = ifelse(wday(date) %in% c(1,7), "weekend", "weekday"))
@@ -97,7 +97,7 @@ replaced_data_days$day <- as.factor(replaced_data_days$day)
 ```
 
 Next, the data is grouped by interval and type of days. Using the lattice package, a time series plot for each type of days (weekday and weekend) can be constructed.
-```{r activity pattern in weekday and weekend, message=FALSE, warning=FALSE, echo=TRUE, fig.path='figure/'}
+```{r activity_pattern_in_weekday_and_weekend, message=FALSE, warning=FALSE, echo=TRUE, fig.path='figure/'}
 activity_pattern_days <- replaced_data_days %>% 
       group_by(across(c(interval, day))) %>% 
       summarise(pattern = mean(steps))
