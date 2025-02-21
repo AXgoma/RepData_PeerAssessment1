@@ -29,7 +29,7 @@ total_steps <- without_na %>%
 ```
 
 Lastly, use the summarised data to make a histogram.
-```{r histogram without NA values, echo=TRUE}
+```{r histogram without NA values, echo=TRUE, fig.path='figure/'}
 hist(total_steps$total, 
      main = "Histogram of steps frequency",
      xlab = "Total range of steps taken per day")
@@ -43,7 +43,7 @@ The mean is 10,766 steps per day and the median is 10,765 steps per day.
 
 ## What is the average daily activity pattern?
 The data without missing values is grouped by interval while the average steps are calculated within those intervals. Then, a time series plot is created to see the daily activity pattern.
-```{r daily activity pattern, echo=TRUE}
+```{r daily activity pattern, echo=TRUE, fig.path='figure/'}
 activity_pattern <- without_na %>% 
       group_by(interval) %>% 
       summarise(pattern = mean(steps))
@@ -75,7 +75,7 @@ replaced_data <- replaced_data[,1:3]
 ```
 
 Then, the histogram is created with similar steps previously done.
-```{r histogram with replaced NA values, echo=TRUE}
+```{r histogram with replaced NA values, echo=TRUE, fig.path='figure/'}
 total_steps_replaced <- replaced_data %>%
       group_by(date) %>% 
       summarise(total = sum(steps))
@@ -97,7 +97,7 @@ replaced_data_days$day <- as.factor(replaced_data_days$day)
 ```
 
 Next, the data is grouped by interval and type of days. Using the lattice package, a time series plot for each type of days (weekday and weekend) can be constructed.
-```{r activity pattern in weekday and weekend, message=FALSE, warning=FALSE, echo=TRUE}
+```{r activity pattern in weekday and weekend, message=FALSE, warning=FALSE, echo=TRUE, fig.path='figure/'}
 activity_pattern_days <- replaced_data_days %>% 
       group_by(across(c(interval, day))) %>% 
       summarise(pattern = mean(steps))
